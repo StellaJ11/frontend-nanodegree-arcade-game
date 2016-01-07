@@ -76,6 +76,10 @@ var Engine = (function(global) {
             if ((key - 1 > -1) && (key - 1 < 6)) {
                 player = new Player();
                 gameState = "Game";
+                doc.removeEventListener('keyup', listen);
+                ctx.fillStyle = "white";
+                ctx.rect(0,0,canvas.width,canvas.height);
+                ctx.fill();
                 main();
             }
         }
@@ -171,7 +175,7 @@ var Engine = (function(global) {
         }
 
         //Listen to keyboard
-        doc.addEventListener('keyup', function(e) {
+        var listen = function(e) {
             var allowedKeys = {
                 49: 1,
                 50: 2,
@@ -179,11 +183,10 @@ var Engine = (function(global) {
                 52: 4,
                 53: 5
             };
-
             handleInput(heroes, allowedKeys[e.keyCode]);
+        };
 
-        });
-
+        doc.addEventListener('keyup', listen);
     }
 
     /* This function draws final screen*/
@@ -247,11 +250,6 @@ var Engine = (function(global) {
      * they are just drawing the entire screen over and over.
      */
     function render() {
-
-
-        ctx.fillStyle = "white";
-        ctx.rect(0,0,canvas.width,canvas.height);
-        ctx.fill();
 
         /* This array holds the relative URL to the image used
          * for that particular row of the game level.
