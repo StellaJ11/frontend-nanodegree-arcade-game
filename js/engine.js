@@ -78,7 +78,7 @@ var Engine = (function(global) {
                 gameState = "Game";
                 main();
             }
-        };
+        }
 
         //Draw possible heroes
         var heroes = [

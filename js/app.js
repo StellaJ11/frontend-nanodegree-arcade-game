@@ -223,6 +223,25 @@ Player.prototype.render = function() {
  * @description Manage players lives and effects when player reaches the water
  */
 Player.prototype.update = function() {
+
+	/**
+	* @function
+	* @description Pick a random index from the array
+	* @param probabilityList - array, contains list of probabilities: array[i] is a probability of picking element number "i"
+	* e.g. [0.4, 0.3, 0.3] - in 40% cases function return "0", in 30% function return "1" and in 30% - "2".
+	*/
+	function chooseRandomItem(probabilityList) {
+		var tmp = Math.random();
+		var sum = 0;
+		var len = probabilityList.length;
+		var i = 0;
+		while ((sum < tmp) && (i < len)) {
+			sum += probabilityList[i];
+			i++;
+		}
+		return i-1;
+	}
+
 	//If player reaches water:
 	if (this.y < 10) {
 		//Move player to initial locaton, add points
@@ -231,35 +250,48 @@ Player.prototype.update = function() {
 		this.points += PLAYER_WATER_POINTS;
 
 		//Apply possible negative effects
-		var tmp = Math.random();
-		//Accelerate enemies:
-		if (tmp < LEVELUP_ACCELERATION_PROBABILITY) {
-			var len = allEnemies.length;
-			for (var i = 0; i < len; i++) {
-				allEnemies[i].accelerate(LEVELUP_ACCELERATION_FACTOR);
-			}
-		}
-		//Add new enemy
-		else if (tmp < LEVELUP_ACCELERATION_PROBABILITY + LEVELUP_NEW_ENEMY_PROBABILITY) {
-			allEnemies.push(new Enemy());
-		}
-		//Add new master-enemy
-		else if (tmp < LEVELUP_ACCELERATION_PROBABILITY + LEVELUP_NEW_ENEMY_PROBABILITY + LEVELUP_NEW_MASTER_PROBABILITY) {
-			allEnemies.push(new EnemyMaster());
+		var negative = chooseRandomItem([
+			LEVELUP_ACCELERATION_PROBABILITY,
+			LEVELUP_NEW_ENEMY_PROBABILITY,
+			LEVELUP_NEW_MASTER_PROBABILITY,
+			1
+		]);
+		switch (negative) {
+			case 0: //Accelerate enemies:
+				var len = allEnemies.length;
+				for (var i = 0; i < len; i++) {
+					allEnemies[i].accelerate(LEVELUP_ACCELERATION_FACTOR);
+				}
+				break;
+			case 1: //Add new enemy:
+				allEnemies.push(new Enemy());
+				break;
+			case 2: //Add new master-enemy:
+				allEnemies.push(new EnemyMaster());
+				break;
 		}
 
 		//Apply possible positive effects (add orange gem, blue gem, green gem, heart)
-		if (tmp < LEVELUP_GEM_O_PROBABILITY) {
-			allBenefits.push(new BenefitGemOrange());
-		}
-		else if (tmp < LEVELUP_GEM_O_PROBABILITY + LEVELUP_GEM_B_PROBABILITY) {
-			allBenefits.push(new BenefitGemBlue());
-		}
-		else if (tmp < LEVELUP_GEM_O_PROBABILITY + LEVELUP_GEM_B_PROBABILITY + LEVELUP_GEM_G_PROBABILITY) {
-			allBenefits.push(new BenefitGemGreen());
-		}
-		else if (tmp < LEVELUP_GEM_O_PROBABILITY + LEVELUP_GEM_B_PROBABILITY + LEVELUP_GEM_G_PROBABILITY + LEVELUP_HEART_PROBABILITY) {
-			allBenefits.push(new BenefitHeart());
+		var positive = chooseRandomItem([
+			LEVELUP_GEM_O_PROBABILITY,
+			LEVELUP_GEM_B_PROBABILITY,
+			LEVELUP_GEM_G_PROBABILITY,
+			LEVELUP_HEART_PROBABILITY,
+			1
+		]);
+		switch (positive) {
+			case 0: //Add orange gem
+				allBenefits.push(new BenefitGemOrange());
+				break;
+			case 1: //Add blue gem
+				allBenefits.push(new BenefitGemBlue());
+				break;
+			case 2: //Add green gem
+				allBenefits.push(new BenefitGemGreen());
+				break;
+			case 3: //Add heart
+				allBenefits.push(new BenefitHeart());
+				break;
 		}
 	}
 
