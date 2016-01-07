@@ -65,13 +65,10 @@ var Engine = (function(global) {
         win.requestAnimationFrame(main);
     }
 
-    /* This function draws starting screen. User can choose a hero.
-     * Also all possible enemies and benefits are shown*/
     function startScreen() {
 
-        /* Handle keyboard input. As soon as user choose his hero, the
-         * game starts (gameStates is changed to "Game"). */
         function handleInput(heroes, key) {
+
             playerSprite = heroes[key-1];
             if ((key - 1 > -1) && (key - 1 < 6)) {
                 player = new Player();
@@ -80,7 +77,6 @@ var Engine = (function(global) {
             }
         };
 
-        //Draw possible heroes
         var heroes = [
                 'images/char-boy.png',
                 'images/char-cat-girl.png',
@@ -90,87 +86,20 @@ var Engine = (function(global) {
         ];
 
         ctx.fillStyle = "green";
-        ctx.rect(0,50,canvas.width,canvas.height - 50);
+        ctx.rect(0,80,canvas.width,canvas.height - 300);
         ctx.fill();
 
         ctx.font = "bold 20pt Verdana";
-        ctx.fillStyle = "yellow";
-        ctx.fillText("Choose your hero (press 1-5)", 30, 80);
+        ctx.fillStyle = "white";
+        ctx.fillText("Choose your hero (press 1-5)", 20, 150);
 
         var len = heroes.length;
         for (i=0; i<len; i++) {
-            ctx.drawImage(Resources.get(heroes[i]), (canvas.width * (i - 1) / len) + 100 , 80);
-            ctx.fillText(i + 1, (canvas.width * (i - 1) / len) + 140 , 120);
+            ctx.drawImage(Resources.get(heroes[i]), (canvas.width * (i - 1) / len) + 100 , 180);
+            ctx.fillText(i + 1, (canvas.width * (i - 1) / len) + 140 , 220);
         }
 
-        ctx.beginPath();
-        ctx.strokeStyle = "white";
-        ctx.moveTo(0, 230);
-        ctx.lineTo(canvas.width, 230);
-        ctx.moveTo(0, 235);
-        ctx.lineTo(canvas.width, 235);
-        ctx.stroke();
 
-        //Draw possible enemies
-        var enemyIcons = [
-            'images/enemy-bug.png',
-            'images/enemy-master-bug-r.png'
-        ];
-
-        var enemyNames = [
-            '  Bug',
-            'Master'
-        ];
-
-        ctx.font = "bold 18pt Verdana";
-        ctx.fillStyle = "red";
-        ctx.fillText("Enemies:", 20, 270);
-
-        ctx.font = "bold 14pt Verdana";
-
-        len = enemyIcons.length;
-        for (i=0; i<len; i++) {
-            ctx.drawImage(Resources.get(enemyIcons[i]), (canvas.width * (i - 1) / len) + 320 , 210 );
-            ctx.fillText(enemyNames[i], (canvas.width * (i - 1) / len) + 340 , 390 );
-        }
-
-        ctx.beginPath();
-        ctx.strokeStyle = "white";
-        ctx.moveTo(0, 410);
-        ctx.lineTo(canvas.width, 410);
-        ctx.moveTo(0, 415);
-        ctx.lineTo(canvas.width, 415);
-        ctx.stroke();
-
-        //Draw possible benefits
-
-        var benefitIcons = [
-            'images/Gem-Blue.png',
-            'images/Gem-Green.png',
-            'images/Gem-Orange.png',
-            'images/Heart.png'
-        ];
-
-        var benefitEffects = [
-            'Remove Master',
-            'Slow down bugs',
-            '  Remove Bug',
-            'Additional life'
-        ];
-
-        ctx.font = "bold 18pt Verdana";
-        ctx.fillStyle = "white";
-        ctx.fillText("Benefits:", 20, 450);
-
-        ctx.font = "bold 10pt Verdana";
-
-        len = benefitIcons.length;
-        for (i=0; i<len; i++) {
-            ctx.drawImage(Resources.get(benefitIcons[i]), (canvas.width * (i - 1) / len) + 140 , 420, 85, 145 );
-            ctx.fillText(benefitEffects[i], (canvas.width * (i - 1) / len) + 140 , 590 );
-        }
-
-        //Listen to keyboard
         doc.addEventListener('keyup', function(e) {
             var allowedKeys = {
                 49: 1,
@@ -186,7 +115,6 @@ var Engine = (function(global) {
 
     }
 
-    /* This function draws final screen*/
     function stopScreen() {
         ctx.beginPath();
         ctx.fillStyle = "black";
@@ -235,9 +163,6 @@ var Engine = (function(global) {
             enemy.update(dt);
         });
         player.update();
-        allBenefits.forEach(function(benefit) {
-            benefit.update();
-        });
     }
 
     /* This function initially draws the "game level", it will then call
@@ -247,12 +172,6 @@ var Engine = (function(global) {
      * they are just drawing the entire screen over and over.
      */
     function render() {
-
-
-        ctx.fillStyle = "white";
-        ctx.rect(0,0,canvas.width,canvas.height);
-        ctx.fill();
-
         /* This array holds the relative URL to the image used
          * for that particular row of the game level.
          */
@@ -301,10 +220,6 @@ var Engine = (function(global) {
         });
 
         player.render();
-
-        allBenefits.forEach(function(benefit) {
-            benefit.render();
-        });
     }
 
     /* This function does nothing but it could have been a good place to
