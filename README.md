@@ -24,7 +24,7 @@ Sometimes you can see benefits on the field: gems or heart. They have a positive
 * Heart adds your one more life
 
 ## How to start the game
-* Download the game files (or fork them from github) [Link](https://github.com/TrueZarathustra/frontend-nanodegree-arcade-game)
+* Download the game files 
 * Open index.html file in your browser
 * You should see a starting screen (green with a number of heroes)
 
