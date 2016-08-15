@@ -93,7 +93,7 @@ var Engine = (function(global) {
                 'images/char-princess-girl.png'
         ];
 
-        ctx.fillStyle = "green";
+        ctx.fillStyle = "pink";
         ctx.rect(0,50,canvas.width,canvas.height - 50);
         ctx.fill();
 

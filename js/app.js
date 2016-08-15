@@ -31,7 +31,7 @@ var LEVELUP_HEART_PROBABILITY = 0.1;//probability of possible positive effects (
 									//which can slow down enemies, kill them or add lives to player)
 
 //PLAYER_* defines behavior of player
-var PLAYER_LIVES = 3; //starting number of lives
+var PLAYER_LIVES = 5; //starting number of lives
 var PLAYER_START_X = 200;
 var PLAYER_START_Y = 430; //starting position
 var PLAYER_STEP = 30; //length of step

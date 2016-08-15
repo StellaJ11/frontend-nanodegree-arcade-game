@@ -1,6 +1,3 @@
-frontend-nanodegree-arcade-game
-===============================
-
 ## About this project
 It is a classical arcade game (Frogger) with a number of modification.
 It is made as a project for Udacity Nanodegree.
